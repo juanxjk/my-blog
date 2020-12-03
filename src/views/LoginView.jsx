@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../redux/actions/auth";
@@ -51,8 +52,23 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginView() {
   const classes = useStyles();
+
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+
+  const history = useHistory();
+
   const authUser = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  if (authUser) history.push("/");
+
+  function login() {
+    console.log("LOGIN!");
+    dispatch(authActions.login({ email, pass }));
+    history.push("/");
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -74,6 +90,9 @@ function LoginView() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
           <TextField
             variant="outlined"
@@ -85,6 +104,9 @@ function LoginView() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(e) => {
+              setPass(e.target.value);
+            }}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -96,6 +118,7 @@ function LoginView() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={login}
           >
             Sign In
           </Button>
