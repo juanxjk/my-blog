@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Redirect } from "react-router-dom";
+
+import { useSelector } from "react-redux";
+
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -11,6 +14,7 @@ function PostView() {
   const { id } = useParams();
   const [isLoading, setLoading] = useState(true);
   const [_post, setPost] = useState();
+  const authUser = useSelector((state) => state.auth);
   if (!isLoading && !_post) return <Redirect to="/" />;
 
   return (
@@ -28,6 +32,7 @@ function PostView() {
               {_post.content}
             </Typography>
 
+            {authUser && (
               <Button
                 variant="contained"
                 color="secondary"
@@ -36,6 +41,7 @@ function PostView() {
               >
                 Like ({_post.likes})
               </Button>
+            )}
           </Grid>
         )
       )}

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import { useSelector, useDispatch } from "react-redux";
+import * as authActions from "../redux/actions/auth";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -48,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginView() {
   const classes = useStyles();
+  const authUser = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -27,6 +28,8 @@ function InputPost() {
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
   const [inputStatus, setInputStatus] = useState("");
+
+  const authUser = useSelector((state) => state.auth);
 
   const _cleanForm = () => {
     setPostTitle("");
@@ -62,6 +65,7 @@ function InputPost() {
     </Button>
   );
 
+  if (authUser)
     return (
       <Container>
         <Grid container sm={12} className={classes.root}>
