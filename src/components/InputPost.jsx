@@ -7,6 +7,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
+
+import PostRepository from "../repositories/PostRepository";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: "center",
@@ -36,6 +39,17 @@ function InputPost() {
     setPostContent("");
   };
 
+  const _createPost = () => {
+    const createdAt = Date.now();
+    const createdBy = authUser;
+    const title = postTitle;
+    const content = postContent;
+    const likes = 0;
+    const views = 0;
+    const post = { title, content, likes, views, createdAt, createdBy };
+    return post;
+  };
+
   const CancelButton = () => (
     <Button
       className={classes.button}
@@ -56,6 +70,14 @@ function InputPost() {
       color="primary"
       onClick={(event) => {
         setInputStatus("Sending...");
+        PostRepository.save(_createPost())
+          .then(() => {
+            _cleanForm();
+            setInputStatus("Sent :)");
+          })
+          .catch(() => {
+            setInputStatus("Post sending has fail! Try again.");
+          });
         setTimeout(() => {
           setInputStatus("");
         }, 3000);
