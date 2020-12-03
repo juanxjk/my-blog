@@ -14,14 +14,28 @@ import Brightness1Icon from "@material-ui/icons/Brightness1";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 
+import PostRepository from "../repositories/PostRepository";
+
 function PostList() {
   const [posts, setPosts] = useState([]);
   const [isLoading, setLoading] = useState(true);
+
+  const fetchPosts = async () => {
+    setLoading(true);
+    PostRepository.findAll()
+      .then((_posts) => setPosts(_posts))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
   return (
     <Grid container>
       <Grid item sm={12}>
         <Typography variant="h3">All posts</Typography>
-        <Button color="default" variant="contained">
+        <Button onClick={fetchPosts} color="default" variant="contained">
           Update
         </Button>
       </Grid>
