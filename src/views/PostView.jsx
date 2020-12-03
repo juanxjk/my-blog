@@ -10,11 +10,27 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Navbar from "../components/Navbar";
+
+import PostRepository from "../repositories/PostRepository";
+
 function PostView() {
   const { id } = useParams();
   const [isLoading, setLoading] = useState(true);
   const [_post, setPost] = useState();
   const authUser = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    setLoading(true);
+    PostRepository.findByID(id)
+      .then((post) => {
+        const viewedPost = { ...post, views: post.views + 1 };
+        setPost(viewedPost);
+        PostRepository.update(viewedPost);
+        setLoading(false);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   if (!isLoading && !_post) return <Redirect to="/" />;
 
   return (
@@ -38,6 +54,11 @@ function PostView() {
                 color="secondary"
                 justify="center"
                 startIcon={<FavoriteIcon />}
+                onClick={() => {
+                  const likedPost = { ..._post, likes: _post.likes + 1 };
+                  setPost(likedPost);
+                  PostRepository.update(likedPost);
+                }}
               >
                 Like ({_post.likes})
               </Button>
