@@ -10,6 +10,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
+import SessionRepository from "../repositories/SessionRepository";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -38,7 +40,13 @@ function Navbar() {
         </Button>
 
         {authUser ? (
-          <Button color="inherit" onClick={() => dispatch(logout())}>
+          <Button
+            color="inherit"
+            onClick={() => {
+              dispatch(logout());
+              SessionRepository.logoutWithGoogle();
+            }}
+          >
             Logout
           </Button>
         ) : (

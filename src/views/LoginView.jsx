@@ -14,8 +14,11 @@ import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
+import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+
+import SessionRepository from "../repositories/SessionRepository";
 
 function Copyright() {
   return (
@@ -44,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%",
     marginTop: theme.spacing(1),
+    textAlign: "center",
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -68,6 +72,13 @@ function LoginView() {
     dispatch(authActions.login({ email, pass }));
     history.push("/");
   }
+  const handleGoogleSignIn = async () => {
+    const user = await SessionRepository.loginWithGoogle();
+    if (user) {
+      dispatch(authActions.login(user));
+      history.push("/");
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -90,6 +101,7 @@ function LoginView() {
             name="email"
             autoComplete="email"
             autoFocus
+            disabled
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -104,20 +116,33 @@ function LoginView() {
             type="password"
             id="password"
             autoComplete="current-password"
+            disabled
             onChange={(e) => {
               setPass(e.target.value);
             }}
           />
           <FormControlLabel
+            disabled
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            className={classes.button}
+            startIcon={<AssignmentIndIcon />}
+            onClick={handleGoogleSignIn}
+          >
+            Sign in with google account
+          </Button>
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled
             onClick={login}
           >
             Sign In
