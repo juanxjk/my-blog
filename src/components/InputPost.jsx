@@ -41,7 +41,7 @@ function InputPost() {
 
   const _createPost = () => {
     const createdAt = Date.now();
-    const createdBy = authUser;
+    const createdBy = authUser.id;
     const title = postTitle;
     const content = postContent;
     const likes = 0;

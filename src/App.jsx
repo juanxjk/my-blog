@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import firebase from "firebase/app";
 import "firebase/firestore";
+import "firebase/auth";
 import firebaseConfig from "./config/firebase";
 
 import { Provider } from "react-redux";
