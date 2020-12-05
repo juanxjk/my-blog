@@ -10,6 +10,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import PostRepository from "../repositories/PostRepository";
 
+import Post from "../models/Post";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: "center",
@@ -40,13 +42,11 @@ function InputPost() {
   };
 
   const _createPost = () => {
-    const createdAt = Date.now();
-    const createdBy = authUser.id;
-    const title = postTitle;
-    const content = postContent;
-    const likes = 0;
-    const views = 0;
-    const post = { title, content, likes, views, createdAt, createdBy };
+    const post = new Post({
+      title: postTitle,
+      content: postContent,
+      createdBy: authUser.id,
+    });
     return post;
   };
 
