@@ -43,7 +43,15 @@ function PostView() {
           <Grid item sm={12}>
             <Typography variant="h1">{_post.title}</Typography>
             <Typography>views: {_post.views} </Typography>
-            <Typography>Date: {_post.createdAt} </Typography>
+            <Typography>
+              {new Date(_post.createdAt).toLocaleString("en", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </Typography>
             <Typography variant="h4" paragraph>
               {_post.content}
             </Typography>

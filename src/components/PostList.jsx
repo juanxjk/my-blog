@@ -57,7 +57,13 @@ function PostList() {
                   </ListItemIcon>
                   <ListItemText
                     primary={post.title ? post.title : "Untitled"}
-                    secondary={post.createdAt}
+                    secondary={new Date(post.createdAt).toLocaleString("en", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   />
                   <ListItemSecondaryAction>
                     <Grid container justify="space-around">
